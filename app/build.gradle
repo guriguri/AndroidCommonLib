@@ -34,6 +34,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
 
+    // for internal module
     compile project(':common')
+
+    // for JitPack.io repository
 //    compile 'com.github.guriguri:AndroidCommonLib:-SNAPSHOT'
 }
