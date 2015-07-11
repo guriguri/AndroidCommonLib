@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "guriguri.android.common.app"
+        minSdkVersion Integer.parseInt(project.ANDROID_MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.POM_VERSION_CODE)
+        versionName project.POM_VERSION_NAME
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if ("${variant.buildType.name}" != "debug") {
+                def newFile = "GuriguriAndroidCommonLibTest" + "-${variant.buildType.name}";
+                newFile += "-${defaultConfig.versionName}_" + new Date().format('yyMMdd_HHmm') + ".apk";
+                output.outputFile = new File(output.outputFile.parent + "/apk", newFile);
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:21.0.3'
+
+    compile project(':common')
+//    compile 'com.github.guriguri:AndroidCommonLib:-SNAPSHOT'
+}
